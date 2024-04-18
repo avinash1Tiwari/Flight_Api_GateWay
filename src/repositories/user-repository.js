@@ -10,7 +10,18 @@ class UserRepository extends crudRepository{
         super(User);
     }
 
-    // return flight
+    async getUserByEmail(email)
+    {
+        // console.log("repo : " + email)
+        const user = await User.findOne({where : {email:email}})
+        // console.log("user repo " )
+        // console.log(user.email)
+        return user;
+    }
+
+
+
+    // return User
 }
 
 
