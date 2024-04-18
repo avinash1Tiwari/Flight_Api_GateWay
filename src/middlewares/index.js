@@ -1,3 +1,3 @@
 module.exports = {
-    ValidateAuthentication : require('./validate-authenticate')
+    AuthRequestMiddlewares : require('./validate-authenticate')
 }
