@@ -1,10 +1,11 @@
-SEAT_TYPE = {
-    BUSSINESS:'bussiness',
-    ECONOMY : 'economy',
-    PREMIUM_ECONOMY : 'premium-economy',
-    FIRST_CLASS : 'first_class'
+
+USER_ROLES_ENUMS = {
+    ADMIN : 'admin',
+    CUSTOMER : 'customer',
+    FLIGHT_COMPANY : 'flightCompany'
 }
 
 module.exports = {
-    SEAT_TYPE
+    
+    USER_ROLES_ENUMS
 }
