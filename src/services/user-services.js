@@ -1,15 +1,24 @@
 const { StatusCodes } = require('http-status-codes');
-const { UserRepository } = require('../repositories')
+const { UserRepository,RoleRepository } = require('../repositories')
 const AppError = require('../utils/errors/app-error')
 const {Auth} = require('../utils/common') 
-
+const {Enums} = require('../utils/common')
 const userRepository = new UserRepository();
+const roleRepo = new RoleRepository();
 
 async function createUser(data) {
     try {
         // console.log("inside service")
         const user = await userRepository.create(data);
+        const role = await roleRepo.getUserByName(Enums.USER_ROLES_ENUMS.CUSTOMER)
+
+        // addRole method in sequelize
+        user.addRole(role)
+
+        console.log("urole")
+        console.log(user.role)
         return user;
+
     }
     catch (error) {
         // console.log("error aya bhai : " + error)
