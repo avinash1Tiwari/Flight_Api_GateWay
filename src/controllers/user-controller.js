@@ -70,7 +70,40 @@ async function signIn(req,res) {
 
 }
 
+
+async function addRoleToUser(req,res) {
+
+
+    try{
+        // const airplane = req.body.modelNumber + req.body.capacity;
+        const user = await UserServices.addRoleToUser({
+            id : req.body.id,
+            role : req.body.role
+        });
+    
+        SuccessResponse.data = user;
+        return res
+                .status(StatusCodes.CREATED)
+                .json(SuccessResponse);
+                 
+
+    }
+    catch(error)
+    {    
+        // console.log(error.statusCode)
+console.log("error")
+console.log(error)
+        ErrorResponse.error = error;
+        return res
+                .status(error.statusCode)
+                .json(ErrorResponse);
+
+    }
+
+}
+
 module.exports={
     signUp,
-    signIn
+    signIn,
+    addRoleToUser
 }

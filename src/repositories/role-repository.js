@@ -10,9 +10,9 @@ class RoleRepository extends crudRepository{
         super(Role);
     }
 
-    async getUserByName(name)
+    async getRoleByName(name)
     {
-        // console.log("repo : " + email)
+    
         const role = await Role.findOne({where : {name:name}})
         // console.log("role repo " )
         // console.log(role)

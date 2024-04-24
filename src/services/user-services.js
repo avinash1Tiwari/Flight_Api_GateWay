@@ -10,13 +10,15 @@ async function createUser(data) {
     try {
         // console.log("inside service")
         const user = await userRepository.create(data);
-        const role = await roleRepo.getUserByName(Enums.USER_ROLES_ENUMS.CUSTOMER)
+
+        // role=> it returns id corresponding to role paased as parameter
+        const role = await roleRepo.getRoleByName(Enums.USER_ROLES_ENUMS.CUSTOMER)
 
         // addRole method in sequelize
         user.addRole(role)
 
         console.log("urole")
-        console.log(user.role)
+        console.log(role)
         return user;
 
     }
@@ -106,8 +108,76 @@ async function isAuthenticated(token){
     }
 }
 
+async function addRoleToUser(data){
+
+    try{
+        const user = await userRepository.get(data.id)
+
+        console.log("user")
+        console.log(user)
+        if(!user)
+        {
+            throw new AppError('No user found for the given id ',StatusCodes.NOT_FOUND)
+        }
+       
+       
+        const role = await roleRepo.getRoleByName(data.role)
+       
+        if(!role)
+        {
+            throw new AppError('No user found for the given role ',StatusCodes.NOT_FOUND)
+        }
+       console.log("pp")
+        user.addRole(role)
+
+        return user;
+    }
+    catch(error)
+    {
+        if(error instanceof AppError) throw error;
+        // console.log(error)
+        throw new AppError('something went wrong ', StatusCodes.INTERNAL_SERVER_ERROR)
+    }
+}
+
+
+
+async function isAdmin(id){
+
+    try{
+        const user = await userRepository.get(id)
+
+        // console.log("user")
+        // console.log(user)
+        if(!user)
+        {
+            throw new AppError('No user found for the given id ',StatusCodes.NOT_FOUND)
+        }
+       
+       
+        const admin_role = await roleRepo.getRoleByName(Enums.USER_ROLES_ENUMS.ADMIN)
+       
+        if(!admin_role)
+        {
+            throw new AppError('No user found for the given role ',StatusCodes.NOT_FOUND)
+        }
+       console.log("pp")
+
+        return user.hasRole(admin_role);
+    }
+    catch(error)
+    {
+        if(error instanceof AppError) throw error;
+        // console.log(error)
+        throw new AppError('something went wrong ', StatusCodes.INTERNAL_SERVER_ERROR)
+    }
+}
+
+
 module.exports={
     createUser,
     signin,
-    isAuthenticated
+    isAuthenticated,
+    addRoleToUser,
+    isAdmin
 }
